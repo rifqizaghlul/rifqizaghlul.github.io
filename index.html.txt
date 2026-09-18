@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifqi Zaghlul Musyaffa — Mathematics & AI Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,200;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06070b;
+  --bg2:#0b0d13;
+  --card:rgba(13,16,24,.85);
+  --border:rgba(255,255,255,.055);
+  --bh:rgba(228,154,46,.28);
+  --amber:#e49a2e;
+  --amber2:#f0b44a;
+  --adim:rgba(228,154,46,.08);
+  --aglow:rgba(228,154,46,.22);
+  --sky:#5ba3ff;
+  --sky-dim:rgba(91,163,255,.1);
+  --t1:#f2ede5;
+  --t2:#7e8492;
+  --t3:#3e424d;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Outfit',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--t2);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:none;
+}
+a,button{cursor:none}
+::selection{background:rgba(228,154,46,.2);color:var(--t1)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(228,154,46,.3);border-radius:99px}
+
+/* ── DOT GRID BACKGROUND */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(228,154,46,.12) 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+}
+
+/* ── CURSOR */
+#cur-dot,#cur-ring{position:fixed;top:0;left:0;z-index:9999;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+#cur-dot{width:7px;height:7px;background:var(--amber);box-shadow:0 0 10px var(--aglow);transition:width .2s,height .2s,background .2s}
+#cur-ring{width:34px;height:34px;border:1.5px solid rgba(228,154,46,.45);transition:width .25s,height .25s,border-color .25s,opacity .25s}
+body.h #cur-dot{width:11px;height:11px;background:#fff;box-shadow:0 0 18px var(--amber)}
+body.h #cur-ring{width:50px;height:50px;border-color:rgba(228,154,46,.75)}
+
+/* ── SCROLL BAR */
+#prog{position:fixed;top:0;left:0;height:2px;z-index:9998;background:linear-gradient(90deg,var(--amber),#f0b44a,#e8784e);width:0;box-shadow:0 0 10px var(--aglow)}
+
+/* ── ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(160px);pointer-events:none;z-index:0;opacity:.12;animation:drift 22s ease-in-out infinite alternate}
+.o1{width:650px;height:650px;background:#2a1800;top:-180px;left:-200px;animation-delay:0s}
+.o2{width:500px;height:500px;background:#001530;top:35%;right:-200px;animation-delay:-8s}
+.o3{width:400px;height:400px;background:#120800;bottom:-100px;left:30%;animation-delay:-15s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(45px,30px) scale(1.08)}}
+
+/* ── NAVIGATION */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:0 2.5rem;
+  background:rgba(6,7,11,.82);
+  backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .3s;
+}
+nav.sc{box-shadow:0 0 50px rgba(228,154,46,.04)}
+.ni{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px}
+.nl{
+  font-family:var(--display);font-size:1.4rem;font-weight:700;font-style:italic;
+  color:var(--amber);text-decoration:none;letter-spacing:-.01em;
+}
+.nr{display:flex;align-items:center;gap:2.5rem}
+.nr a{
+  font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);text-decoration:none;transition:color .2s;position:relative;padding-bottom:2px;
+}
+.nr a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--amber);transition:width .3s}
+.nr a:hover,.nr a.act{color:var(--amber)}
+.nr a:hover::after,.nr a.act::after{width:100%}
+.mob-btn{display:none;background:none;border:none;color:var(--t2);padding:4px}
+.mob-menu{display:none;flex-direction:column;background:rgba(6,7,11,.97);border-top:1px solid var(--border);padding:1rem 1.5rem 1.5rem}
+.mob-menu.open{display:flex}
+.mob-menu a{display:block;padding:.65rem 0;font-size:.9rem;color:var(--t2);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+.mob-menu a:hover{color:var(--amber)}
+
+/* ── LAYOUT */
+.pw{max-width:1120px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:7rem 0}
+
+/* ── SECTION HEADER */
+.sh{display:flex;align-items:center;gap:1.5rem;margin-bottom:4rem}
+.snum{font-family:var(--mono);font-size:.7rem;color:var(--amber);letter-spacing:.12em;padding:.3rem .7rem;border-radius:5px;background:var(--adim);border:1px solid rgba(228,154,46,.18);white-space:nowrap;flex-shrink:0;}
+.stitle{font-family:var(--display);font-size:2.5rem;font-weight:600;color:var(--t1);letter-spacing:-.025em;line-height:1;}
+.sline{flex-grow:1;height:1px;background:linear-gradient(to right,var(--bh),transparent)}
+
+/* ── REVEAL */
+.rev{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.4,0,.2,1),transform .65s cubic-bezier(.4,0,.2,1)}
+.rev.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ══════════════════ HERO ══════════════════ */
+#home{min-height:100vh;display:flex;align-items:center;padding-top:80px;position:relative;overflow:hidden}
+#home::after{
+  content:'';position:absolute;top:0;right:18%;width:1px;height:100%;
+  background:linear-gradient(to bottom,transparent,rgba(228,154,46,.12) 30%,rgba(228,154,46,.06) 70%,transparent);
+  pointer-events:none;
+}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:4rem;width:100%}
+.hero-content{flex:1;min-width:0}
+.hero-photo-wrap{flex-shrink:0;position:relative;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.hero-photo-wrap::before{
+  content:'';position:absolute;inset:-14px;border-radius:50%;
+  border:1px dashed rgba(228,154,46,.18);animation:spin-slow 28s linear infinite;pointer-events:none;
+}
+.hero-photo-wrap::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid rgba(228,154,46,.22);pointer-events:none;
+}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.hero-photo{
+  width:260px;height:260px;border-radius:50%;object-fit:cover;object-position:center top;
+  border:2px solid rgba(228,154,46,.4);display:block;position:relative;z-index:1;
+  filter:grayscale(10%) brightness(.97);transition:filter .4s,transform .4s;
+}
+.hero-photo-wrap:hover .hero-photo{filter:grayscale(0%) brightness(1.03);transform:scale(1.02)}
+.avail-badge{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;
+  background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);
+  border-radius:99px;font-size:.72rem;color:rgba(74,222,128,.85);letter-spacing:.04em;
+  position:relative;z-index:1;
+}
+.avail-dot{
+  width:7px;height:7px;border-radius:50%;background:#4ade80;
+  box-shadow:0 0 8px rgba(74,222,128,.6);animation:pulse-green 2.5s ease-in-out infinite;
+}
+@keyframes pulse-green{
+  0%,100%{box-shadow:0 0 6px rgba(74,222,128,.5);opacity:1}
+  50%{box-shadow:0 0 14px rgba(74,222,128,.9);opacity:.75}
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:2rem;
+}
+.hero-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--amber);opacity:.6}
+
+.hero-name{
+  font-family:var(--display);font-size:clamp(3.2rem,7.5vw,6.8rem);
+  font-weight:700;line-height:.98;color:var(--t1);letter-spacing:-.03em;margin-bottom:1.6rem;
+}
+.hero-name .light{font-weight:300;color:rgba(242,237,229,.55)}
+.hero-name .italic{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(110deg,var(--amber) 0%,var(--amber2) 50%,#f08030 100%);
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{to{background-position:200% center}}
+
+.hero-tagline{
+  font-size:1rem;color:var(--t2);letter-spacing:.03em;max-width:520px;line-height:1.75;margin-bottom:2.5rem;
+}
+
+.hero-actions{display:flex;flex-wrap:wrap;gap:.85rem;align-items:center}
+.btn-a{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.75rem;border-radius:8px;
+  background:var(--amber);color:#050406;font-size:.82rem;font-weight:700;letter-spacing:.04em;
+  text-decoration:none;transition:all .25s;box-shadow:0 0 26px rgba(228,154,46,.28);
+}
+.btn-a:hover{background:var(--amber2);box-shadow:0 0 42px rgba(228,154,46,.5);transform:translateY(-2px)}
+.btn-b{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.75rem;border-radius:8px;
+  background:transparent;color:var(--t1);font-size:.82rem;font-weight:600;letter-spacing:.04em;
+  text-decoration:none;transition:all .25s;border:1px solid var(--border);
+}
+.btn-b:hover{border-color:var(--bh);background:var(--adim);transform:translateY(-2px)}
+.btn-c{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.25rem;border-radius:8px;
+  background:transparent;color:var(--t3);font-size:.82rem;font-weight:500;
+  text-decoration:none;transition:all .25s;border:1px solid var(--border);
+}
+.btn-c:hover{border-color:rgba(91,163,255,.3);color:var(--sky);background:var(--sky-dim);transform:translateY(-2px)}
+
+@media(max-width:900px){
+  .hero-inner{flex-direction:column-reverse;align-items:center;gap:2.5rem;text-align:center}
+  .hero-content{display:flex;flex-direction:column;align-items:center}
+  .hero-eyebrow{justify-content:center}
+  .hero-tagline{max-width:100%}
+  .hero-name{font-size:clamp(2.6rem,8vw,4rem);text-align:center}
+  .hero-actions{justify-content:center}
+  .hero-photo{width:200px;height:200px}
+}
+@media(max-width:560px){.hero-photo{width:160px;height:160px}}
+
+/* ══════════════════ TIMELINE ══════════════════ */
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{
+  content:'';position:absolute;left:0;top:12px;bottom:12px;
+  width:1px;background:linear-gradient(to bottom,var(--amber),rgba(228,154,46,.08));
+}
+.titem{position:relative;margin-bottom:1.75rem}
+.tdot{
+  position:absolute;left:-2rem;top:1.5rem;width:8px;height:8px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--amber);transform:translateX(-3.5px);box-shadow:0 0 10px var(--aglow);
+}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.75rem;
+  backdrop-filter:blur(14px);transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;
+}
+.card:hover::before{transform:scaleX(1)}
+.card:hover{border-color:var(--bh);box-shadow:0 8px 40px rgba(228,154,46,.06);transform:translateY(-2px)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+.ctitle{font-size:1.05rem;font-weight:600;color:var(--t1);margin-bottom:.2rem}
+.corg{font-size:.83rem;color:var(--amber);font-weight:500}
+.cdate{
+  font-family:var(--mono);font-size:.68rem;color:rgba(228,154,46,.75);
+  background:rgba(228,154,46,.08);border:1px solid rgba(228,154,46,.25);
+  padding:.28rem .8rem;border-radius:99px;white-space:nowrap;flex-shrink:0;
+}
+.card ul{padding-left:0;list-style:none}
+.card ul li{display:flex;gap:.6rem;align-items:flex-start;font-size:.855rem;color:var(--t2);margin-bottom:.5rem;}
+.card ul li::before{content:'▸';color:var(--amber);font-size:.6rem;margin-top:.38rem;flex-shrink:0}
+
+/* ══════════════════ GRIDS ══════════════════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.gauto{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.5rem}
+@media(max-width:768px){.g2{grid-template-columns:1fr}}
+
+/* ══════════════════ EDUCATION ══════════════════ */
+.ecard{
+  background:linear-gradient(135deg,rgba(13,16,23,.95),rgba(8,10,15,.95));
+  border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;height:100%;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.ecard::after{
+  content:'';position:absolute;top:-1px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),rgba(228,154,46,.3),transparent);
+}
+.ecard:hover{border-color:var(--bh);transform:translateY(-3px);box-shadow:0 12px 50px rgba(228,154,46,.07)}
+.etag{font-family:var(--mono);font-size:.68rem;color:var(--amber);letter-spacing:.06em;margin-bottom:.7rem}
+.edeg{font-size:1.15rem;font-weight:600;color:var(--t1);margin-bottom:.35rem}
+.euni{color:var(--t2);font-size:.88rem;margin-bottom:.85rem}
+.rbox{margin-top:1.3rem;padding:1rem;border-radius:10px;background:rgba(0,0,0,.35);border:1px solid var(--border);}
+.rbox strong{display:block;font-size:.7rem;color:var(--sky);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.rbox span{color:var(--t2);font-size:.82rem}
+.subsec{font-family:var(--display);font-size:1.35rem;font-weight:600;color:var(--t1);margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem;}
+
+/* ══════════════════ PROJECT CARDS ══════════════════ */
+.pcard{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:1.75rem;display:flex;flex-direction:column;transition:border-color .3s,box-shadow .3s,transform .3s;
+  backdrop-filter:blur(14px);height:100%;position:relative;overflow:hidden;
+}
+.pcard::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:radial-gradient(ellipse 60% 60% at 50% -10%,rgba(228,154,46,.05),transparent);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.pcard:hover::before{opacity:1}
+.pcard:hover{border-color:var(--bh);box-shadow:0 8px 48px rgba(228,154,46,.07);transform:translateY(-4px)}
+.ptag{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:.65rem}
+.ptitle{font-size:1.05rem;font-weight:600;color:var(--t1);margin-bottom:.75rem;transition:color .25s;line-height:1.35}
+.pcard:hover .ptitle{color:var(--amber)}
+.pdesc{font-size:.84rem;color:var(--t2);line-height:1.72;flex-grow:1;margin-bottom:1.2rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.tag{
+  padding:.22rem .65rem;border-radius:5px;background:rgba(228,154,46,.06);border:1px solid rgba(228,154,46,.2);
+  font-size:.7rem;color:rgba(242,237,229,.55);font-family:var(--mono);transition:background .2s,color .2s,border-color .2s;
+}
+.tag:hover{background:var(--adim);color:var(--t2);border-color:rgba(228,154,46,.25)}
+.plinks{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.plink{
+  display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--t3);text-decoration:none;font-weight:500;
+  padding:.28rem .75rem;border-radius:6px;border:1px solid var(--border);transition:all .2s;
+}
+.plink:hover{color:var(--amber);border-color:rgba(228,154,46,.3);background:var(--adim)}
+
+/* ══════════════════ SKILLS ══════════════════ */
+.sbox{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem;backdrop-filter:blur(14px);transition:border-color .3s;}
+.sbox:hover{border-color:var(--bh)}
+.sbtitle{display:flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t1);margin-bottom:1.2rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+.sbtitle svg{color:var(--amber)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{
+  display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .85rem;border-radius:99px;
+  background:rgba(228,154,46,.04);border:1px solid rgba(228,154,46,.1);font-size:.79rem;color:var(--t2);
+  transition:background .2s,border-color .2s,color .2s,transform .15s;
+}
+.chip:hover{background:var(--adim);border-color:rgba(228,154,46,.28);color:var(--t1);transform:translateY(-2px)}
+.certs{display:flex;flex-direction:column;gap:.5rem}
+.cert{
+  display:flex;align-items:flex-start;gap:.65rem;padding:.7rem .9rem;border-radius:8px;
+  background:rgba(0,0,0,.3);border:1px solid var(--border);font-size:.82rem;color:var(--t2);transition:border-color .2s,background .2s;
+}
+.cert:hover{border-color:var(--bh);background:var(--adim)}
+.cert-chk{color:var(--amber);flex-shrink:0;margin-top:2px}
+
+/* ══════════════════ FOOTER ══════════════════ */
+footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center;font-size:.77rem;color:var(--t3);position:relative;z-index:1;}
+.flinks{display:flex;justify-content:center;gap:1.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.flinks a{color:var(--t3);text-decoration:none;font-size:.77rem;display:flex;align-items:center;gap:.35rem;transition:color .2s}
+.flinks a:hover{color:var(--amber)}
+.fname{color:var(--amber)}
+
+#btt{position:fixed;bottom:2rem;right:2rem;z-index:200;width:42px;height:42px;border-radius:11px;background:var(--card);border:1px solid var(--bh);display:grid;place-items:center;color:var(--amber);transition:all .3s;opacity:0;pointer-events:none;backdrop-filter:blur(14px);box-shadow:0 0 22px rgba(228,154,46,.12);}
+#btt.vis{opacity:1;pointer-events:auto}
+#btt:hover{background:var(--adim);transform:translateY(-3px);box-shadow:0 0 32px rgba(228,154,46,.28)}
+
+@media(max-width:768px){
+  .nr{display:none}
+  .mob-btn{display:block}
+  .stitle{font-size:1.85rem}
+  .pw{padding:0 1.2rem}
+  section{padding:5rem 0}
+  #cur-dot,#cur-ring{display:none}
+  body,a,button{cursor:auto}
+  #btt{bottom:1.2rem;right:1.2rem}
+}
+
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+svg{display:inline-block;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+<canvas id="bgc"></canvas>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<button id="btt" aria-label="Back to top">
+  <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- TOP NAV -->
+<nav id="navbar">
+  <div class="ni">
+    <a href="#home" class="nl">RZ.</a>
+    <div class="nr">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#organization">Organizations</a>
+      <a href="#skills">Skills &amp; Certs</a>
+    </div>
+    <button class="mob-btn" id="mobBtn" aria-label="Menu">
+      <svg id="iMenu" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="iClose" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mob-menu" id="mobMenu">
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#organization">Organizations</a>
+    <a href="#skills">Skills &amp; Certs</a>
+  </div>
+</nav>
+
+<main>
+<div class="pw">
+
+<!-- ══ HERO ══ -->
+<section id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow rev">Available for Opportunities</div>
+      <h1 class="hero-name rev d1">
+        Rifqi<br>
+        <span class="italic">Zaghlul</span><br>
+        <span class="light">Musyaffa</span>
+      </h1>
+      <p class="hero-tagline rev d2">
+        Mathematics undergraduate at Brawijaya University specializing in AI, Machine Learning, and Computer Vision (CNN). Experienced in end-to-end data pipelines, deep learning architecture from scratch, and quantitative economic analysis.
+      </p>
+
+      <div class="hero-actions rev d3">
+        <a href="mailto:rifqizaghlul1@gmail.com" class="btn-a">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Contact Me
+        </a>
+        <a href="CV Rifqi (English).pdf" target="_blank" class="btn-b">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          View CV
+        </a>
+        <a href="https://www.linkedin.com/in/rifqizaghlul" target="_blank" class="btn-c">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/kevinone0" target="_blank" class="btn-c">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap rev d2">
+      <img src="foto-kamu.jpg" alt="Rifqi Zaghlul Musyaffa" class="hero-photo" onerror="this.src='https://via.placeholder.com/260?text=Rifqi+Zaghlul'">
+      <div class="avail-badge">
+        <div class="avail-dot"></div>
+        Open to Opportunities
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCE ══ -->
+<section id="experience">
+  <div class="sh rev">
+    <div class="snum">01 / Experience</div>
+    <h2 class="stitle">Work Experience</h2>
+    <div class="sline"></div>
+  </div>
+  <div class="timeline">
+    <div class="titem rev">
+      <div class="tdot"></div>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="ctitle">Sound Crew Intern</div><div class="corg">Film Project 3726 MDPL — Falcon Pictures</div></div>
+          <div class="cdate">Jul 2026 – Aug 2026</div>
+        </div>
+        <ul>
+          <li>Supported on-set sound operations including boom operation, audio monitoring, cable management, and sound log reporting.</li>
+          <li>Applied field recording techniques and cross-department collaboration in film production.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="titem rev">
+      <div class="tdot"></div>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="ctitle">Internship AI Engineer Cohort</div><div class="corg">DBS Foundation Coding Camp</div></div>
+          <div class="cdate">Feb 2026 – Aug 2026</div>
+        </div>
+        <ul>
+          <li>Learned and applied AI/Machine Learning concepts: data preprocessing, model development using Python, and building end-to-end AI solutions.</li>
+          <li>Built advanced deep learning projects including custom CNNs, Seq2Seq LSTMs, and NLP pipelines.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="titem rev">
+      <div class="tdot"></div>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="ctitle">Research Intern</div><div class="corg">Bank Indonesia Representative Office Bengkulu Province</div></div>
+          <div class="cdate">Jan 2025 – Feb 2025</div>
+        </div>
+        <ul>
+          <li>Conducted quantitative analysis on Gross Regional Domestic Product (GRDP) vs Poverty Rate (2013-2024) using OLS Simple Linear Regression in SPSS.</li>
+          <li>Performed classical assumption testing (Normality, Multicollinearity, Heteroscedasticity, Autocorrelation).</li>
+          <li>Delivered data-driven policy recommendations for MSME empowerment and financial inclusion.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="sh rev">
+    <div class="snum">02 / Projects</div>
+    <h2 class="stitle">Featured Projects</h2>
+    <div class="sline"></div>
+  </div>
+  <div class="gauto">
+
+    <div class="pcard rev">
+      <div class="ptag">Computer Vision / Deep Learning</div>
+      <div class="ptitle">Rice Leaf Disease Classification (100% Test Acc)</div>
+      <div class="pdesc">Designed a custom CNN architecture with TensorFlow/Keras using 4 Conv blocks and adaptive callbacks. Achieved 100% test accuracy on 893 images across 4 classes. Exported to SavedModel, TF-Lite, and TF.js formats.</div>
+      <div class="tags"><span class="tag">TensorFlow</span><span class="tag">CNN</span><span class="tag">TF-Lite</span><span class="tag">Keras</span></div>
+    </div>
+
+    <div class="pcard rev d1">
+      <div class="ptag">NLP / Sentiment Analysis</div>
+      <div class="ptitle">Spotify User Reviews Sentiment Analysis</div>
+      <div class="pdesc">Scraped 17,000 Play Store reviews, built an Indonesian NLP pipeline (NLTK &amp; Sastrawi), and tackled class imbalance with SMOTE. Benchmarked TF-IDF + LinearSVC (89%), BiLSTM (87%), and Word2Vec + Random Forest.</div>
+      <div class="tags"><span class="tag">NLP</span><span class="tag">Python</span><span class="tag">BiLSTM</span><span class="tag">LinearSVC</span></div>
+    </div>
+
+    <div class="pcard rev d2">
+      <div class="ptag">Deep Learning / Time Series</div>
+      <div class="ptitle">Multivariate Bitcoin Forecasting (Seq2Seq LSTM)</div>
+      <div class="pdesc">Built a 24-step-ahead multivariate Bitcoin price forecasting model from scratch using custom gradient loops (tf.GradientTape). Achieved MAE &lt; 0.015 on normalized hourly OHLCV data.</div>
+      <div class="tags"><span class="tag">Seq2Seq</span><span class="tag">LSTM</span><span class="tag">Time Series</span><span class="tag">Custom Layer</span></div>
+    </div>
+
+    <div class="pcard rev d3">
+      <div class="ptag">Machine Learning &amp; Fraud Analytics</div>
+      <div class="ptitle">Financial Fraud Detection &amp; Behavior Analysis</div>
+      <div class="pdesc">Integrated K-Means Clustering (Silhouette Score 0.572) and Random Forest Classification to detect suspicious transaction behaviors. Optimized with GridSearchCV, reaching 99% accuracy &amp; precision.</div>
+      <div class="tags"><span class="tag">K-Means</span><span class="tag">Random Forest</span><span class="tag">PCA</span><span class="tag">Scikit-Learn</span></div>
+    </div>
+
+    <div class="pcard rev d4">
+      <div class="ptag">Econometrics / Research</div>
+      <div class="ptitle">GRDP vs Poverty Rate Analysis (Bank Indonesia)</div>
+      <div class="pdesc">Quantitative analysis using Simple Linear Regression OLS to model Bengkulu's economy (2013-2024). Resulted in R² = 0.963, supporting regional policy recommendations for MSMEs.</div>
+      <div class="tags"><span class="tag">SPSS</span><span class="tag">Econometrics</span><span class="tag">OLS Regression</span><span class="tag">Policy</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ EDUCATION ══ -->
+<section id="education">
+  <div class="sh rev">
+    <div class="snum">03 / Education</div>
+    <h2 class="stitle">Education</h2>
+    <div class="sline"></div>
+  </div>
+  <div class="g2">
+    <div class="ecard rev">
+      <div class="etag">Aug 2022 — Present</div>
+      <div class="edeg">Bachelor's Degree in Mathematics</div>
+      <div class="euni">Brawijaya University — Malang, Indonesia</div>
+      <div class="rbox">
+        <strong>Specialization Focus</strong>
+        <span>Computer Vision &amp; Convolutional Neural Networks (CNN)</span>
+      </div>
+    </div>
+    <div class="ecard rev d1">
+      <div class="etag">Jul 2019 — Mar 2022</div>
+      <div class="edeg">Science Major</div>
+      <div class="euni">SMA IT Assyifa Boarding School Wanareja — Subang</div>
+      <div class="rbox">
+        <strong>Activity</strong>
+        <span>Committee member for Assyifa League Festival 2020 &amp; 2021</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ORGANIZATIONS ══ -->
+<section id="organization">
+  <div class="sh rev">
+    <div class="snum">04 / Organizations</div>
+    <h2 class="stitle">Organizations &amp; Leadership</h2>
+    <div class="sline"></div>
+  </div>
+  <div class="g2">
+    <div>
+      <div class="subsec rev">Organization</div>
+      <div class="card rev d1" style="margin-bottom:1rem">
+        <div class="card-head">
+          <div><div class="ctitle">Staff Event and Operation</div><div class="corg">AORTA Community Chapter Malang</div></div>
+          <div class="cdate">Aug 2025 – Present</div>
+        </div>
+        <ul><li>Assisted in organizing community events and coordinated operational execution.</li></ul>
+      </div>
+      <div class="card rev d2">
+        <div class="card-head">
+          <div><div class="ctitle">Staff of Student Resources Development</div><div class="corg">HIMATIKA UB</div></div>
+          <div class="cdate">Mar 2023 – Dec 2023</div>
+        </div>
+        <ul>
+          <li>Project leader for "Mathematics Community Gathering".</li>
+          <li>Responsible for the "Solidarity of Mathematics" program.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="subsec rev">Committee &amp; Volunteer</div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div class="card rev d1">
+          <div class="card-head">
+            <div><div class="ctitle">Liaison Officer (Odoo Software &amp; Sun Paper)</div><div class="corg">Brawijaya Career Expo (2025 &amp; 2026)</div></div>
+            <div class="cdate">May 2025 &amp; May 2026</div>
+          </div>
+          <ul><li>Primary point of contact for corporate partners during career events.</li></ul>
+        </div>
+        <div class="card rev d2">
+          <div class="card-head">
+            <div><div class="ctitle">Divisional Coordinator (Pubdok &amp; Transport)</div><div class="corg">LKMM-TM FMIPA UB</div></div>
+            <div class="cdate">Sep 2024 – Nov 2024</div>
+          </div>
+          <ul><li>Led 5 staff members managing logistics for 80+ leadership training participants.</li></ul>
+        </div>
+        <div class="card rev d3">
+          <div class="card-head">
+            <div><div class="ctitle">Steering Committee of Logistics</div><div class="corg">SIGMA 2024</div></div>
+            <div class="cdate">May 2024 – Sep 2024</div>
+          </div>
+          <ul><li>Managed infrastructure for a national-scale mathematics event.</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS & CERTS ══ -->
+<section id="skills">
+  <div class="sh rev">
+    <div class="snum">05 / Skills</div>
+    <h2 class="stitle">Skills &amp; Certifications</h2>
+    <div class="sline"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:1.2rem">
+    <div class="g2">
+      <div class="sbox rev">
+        <div class="sbtitle">Technical &amp; Analytics</div>
+        <div class="chips">
+          <span class="chip">🐍 Python</span><span class="chip">🤖 TensorFlow/Keras</span><span class="chip">📊 RStudio</span><span class="chip">🔢 MATLAB</span><span class="chip">📈 SPSS</span><span class="chip">💼 Microsoft Office</span>
+        </div>
+      </div>
+      <div class="sbox rev d1">
+        <div class="sbtitle">Certifications</div>
+        <div class="certs">
+          <div class="cert">
+            <svg class="cert-chk" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Starting Programming with Python — Dicoding Indonesia</span>
+          </div>
+          <div class="cert">
+            <svg class="cert-chk" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Machine Learning for Beginners — Dicoding Indonesia</span>
+          </div>
+          <div class="cert">
+            <svg class="cert-chk" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Learning Deep Learning Fundamentals — Dicoding Indonesia</span>
+          </div>
+          <div class="cert">
+            <svg class="cert-chk" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Building Advanced Deep Learning Projects — Dicoding Indonesia</span>
+          </div>
+          <div class="cert">
+            <svg class="cert-chk" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Basic &amp; Intermediate Student Management Skills Training — BEM FMIPA UB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="flinks">
+    <a href="mailto:rifqizaghlul1@gmail.com">rifqizaghlul1@gmail.com</a>
+    <a href="https://www.linkedin.com/in/rifqizaghlul" target="_blank">LinkedIn</a>
+    <a href="https://github.com/kevinone0" target="_blank">GitHub</a>
+  </div>
+  <p>© <span id="yr"></span> <span class="fname">Rifqi Zaghlul Musyaffa</span>. All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Cursor
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function ani(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ani)})();
+document.querySelectorAll('a,button,.chip,.pcard,.card,.ecard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('h'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('h'));
+});
+
+// Scroll Progress
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{prog.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+
+// Nav active
+const navbar=document.getElementById('navbar');
+const navLinks=document.querySelectorAll('.nr a');
+const sections=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('sc',window.scrollY>20);
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-130)cur=s.id});
+  navLinks.forEach(a=>a.classList.toggle('act',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+
+// Mobile menu
+const mobBtn=document.getElementById('mobBtn');
+const mobMenu=document.getElementById('mobMenu');
+const iMenu=document.getElementById('iMenu');
+const iClose=document.getElementById('iClose');
+mobBtn.addEventListener('click',()=>{const o=mobMenu.classList.toggle('open');iMenu.style.display=o?'none':'';iClose.style.display=o?'':'none';});
+mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobMenu.classList.remove('open');iMenu.style.display='';iClose.style.display='none';}));
+
+// Scroll Reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+
+// Back to Top
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>btt.classList.toggle('vis',window.scrollY>400),{passive:true});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// Canvas Particles
+const canvas=document.getElementById('bgc');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[];
+const N=60,MD=130;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.2+.4}))}
+resize();init();
+window.addEventListener('resize',()=>{resize();init()},{passive:true});
+let cmx=-9999,cmy=-9999;
+document.addEventListener('mousemove',e=>{cmx=e.clientX;cmy=e.clientY});
+(function frame(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    const dx=cmx-p.x,dy=cmy-p.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<200){p.vx+=dx/d*.009;p.vy+=dy/d*.009}
+    const sp=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+    if(sp>.6){p.vx=p.vx/sp*.6;p.vy=p.vy/sp*.6}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(228,154,46,.4)';ctx.fill();
+  });
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<MD){
+        const a=(1-dist/MD)*.12;
+        ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(228,154,46,${a})`;ctx.lineWidth=.65;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
